@@ -15,7 +15,7 @@ Here is an example of output:
 Clonando en '/Users/casianorodriguezleon/.local/share/gh/extensions/gh-clone-org'...
 ```
 
-Observe how extensions are stored in `$HOME/.gh/extensions`
+Observe how extensions are stored in `$HOME/.local/share/.gh/extensions`
 
 This repo is a fork of `matt-bartel/gh-clone-org`. To install the original version:
 
