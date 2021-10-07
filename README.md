@@ -126,6 +126,22 @@ We can make use of `jq` to filter the results
 "ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa"
 ```
 
+We can make very complex querys with `jq`:
+
+```
+$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella | \
+  jq '.items[] | .full_name, .private, .commits_url'
+"ULL-ESIT-DMSI-1920/markdown-fuegonellaa"
+false
+"https://api.github.com/repos/ULL-ESIT-DMSI-1920/markdown-fuegonellaa/commits{/sha}"
+"ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa"
+false
+"https://api.github.com/repos/ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa/commits{/sha}"
+"ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa"
+true
+"https://api.github.com/repos/ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa/commits{/sha}"
+```
+
 Fortunately, `gh` has a `--jq` option that does the same that the former pipe example.
 
 But first, let avoid the `gh` default paginator:
