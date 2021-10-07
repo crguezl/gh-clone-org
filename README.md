@@ -4,22 +4,23 @@ A github-cli extension script to clone all repositories in an organization, opti
 
 ## Installation
 
-The original version is here:
+```bash
+gh extension install crguezl/gh-clone-org
+```
+
+Here is an example of output:
+
+```
+[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh extension install crguezl/gh-clone-org
+Clonando en '/Users/casianorodriguezleon/.local/share/gh/extensions/gh-clone-org'...
+```
+
+Observe how extensions are stored in `$HOME/.gh/extensions`
+
+This repo is a fork of `matt-bartel/gh-clone-org`. To install the original version:
 
 ```bash
 gh extension install matt-bartel/gh-clone-org
-```
-
-```
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh extension install crguezl/clone-orgextension repository name must start with `gh-`
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh extension install crguezl/gh-clone-org
-Clonando en '/Users/casianorodriguezleon/.local/share/gh/extensions/gh-clone-org'...
-remote: Enumerating objects: 53, done.
-remote: Counting objects: 100% (53/53), done.
-remote: Compressing objects: 100% (39/39), done.
-remote: Total 53 (delta 20), reused 40 (delta 13), pack-reused 0
-Recibiendo objetos: 100% (53/53), 13.51 KiB | 6.76 MiB/s, listo.
-Resolviendo deltas: 100% (20/20), listo.
 ```
 
 ## Usage
@@ -44,7 +45,7 @@ gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
     Display this message.
 ```
 
-## Examples
+## Examples of use
 
 ```
 $ gh clone-org -s iaas -n ULL-ESIT-DMSI-1920
@@ -58,7 +59,7 @@ ULL-ESIT-DMSI-1920/p1-t1-iaas-crguezl
 ULL-ESIT-DMSI-1920/p1-t1-iaas-lauramanzini
 ```
 
-### Default org with GITHUB_ORG
+### Setting default org with GITHUB_ORG
 
 ```
 $ export GITHUB_ORG=ULL-ESIT-DMSI-1920
@@ -70,7 +71,7 @@ ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
 ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
 ```
 
-### How it works 
+## How it works 
 
 To obtain the repos `gh-clone-org` makes a request like:
 
@@ -115,7 +116,8 @@ $ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella
 
 The json is very large and contains a lot of information!
 
-We can make use of [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/jq) to filter the results:
+We can make use of `jq` to filter the results
+(See [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/jq)): 
 
 ```
 [~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella | jq .items[].full_name -
@@ -128,14 +130,13 @@ Fortunately, `gh` has a `--jq` option that does the same that the former pipe ex
 
 But first, let avoid the `gh` default paginator:
 
-
 ```
 [~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh  config set pager cat
 [~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh  config get pager
 cat
 ```
 
-and here it is the output using `--jq`:
+And here it is the output of `gh` using `--jq`:
 
 ```
 [~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella --jq .items[].full_name 
@@ -144,7 +145,7 @@ ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
 ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
 ```
 
-### what happens if one of the repos already exists
+### What happens if one of the repos already exists
 
 If the repo already exists the script attempts to pull the last version of the default branch
 

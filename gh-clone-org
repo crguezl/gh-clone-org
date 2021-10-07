@@ -23,6 +23,7 @@ gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
     Clone repositories found by this search string. If this is provided '-t' will be ignored.
     Example: -s \"is:public language:go\"
     See: https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-for-repositories
+  -j --jq JQ QUERY
   -n, --dry-run
     Do not actually clone, just show what would be cloned
   -h, --help
@@ -60,7 +61,7 @@ do
     -t | --topic ) shift
       CLONE_TOPIC="$1"
       ;;
-    -y | --yes ) ACCEPT_PROMPT=true
+    -y | --yes ) ACCEPT_PROMPT="true"
       ;;
     -p | --path ) shift
       CLONE_PATH="$1"
@@ -68,7 +69,7 @@ do
     -s | --search ) shift
       SEARCH="$1"
       ;;
-    -n | --dry-run) DRY_RUN=true
+    -n | --dry-run) DRY_RUN="true"
       ;;
     -h | --help ) usage
       exit
@@ -107,7 +108,7 @@ else
   fi
 fi
 
-echo "Retrieving the list of repositories: QUERY=$QUERY JQ_QUERY=$JQ_QUERY"
+echo "Retrieving the list of repositories: $QUERY"
 REPOS=$(gh api --paginate "$QUERY" -q "$JQ_QUERY")
 
 if [ -z "$REPOS" ]
@@ -132,7 +133,7 @@ fi
 
 if [ "$ACCEPT_PROMPT" != "true" ]
 then
-  VALID=false
+  VALID="false"
   echo "Cloning $COUNT repositories to $CLONE_PATH. Continue? Anything other than 'y' or 'l' will terminate"
   while [ "$VALID" = "false" ]
   do
@@ -142,7 +143,7 @@ then
       echo "$REPOS"
     elif [ "$YESNO" = "y" ]
     then
-      VALID=true
+      VALID="true"
     else
       exit 1
     fi
@@ -157,10 +158,7 @@ cd "$CLONE_PATH"
 #set +e
 for repo in $REPOS
 do
-  echo ${repo}
-  echo ${GITHUB_ORG}
   d=${repo#$GITHUB_ORG/}
-  echo $d
   if [ -d "$d" ]
   then
     echo "'$d' already exists, attempting to checkout the default branch and pull"
