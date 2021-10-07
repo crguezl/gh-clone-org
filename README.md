@@ -142,6 +142,19 @@ true
 "https://api.github.com/repos/ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa/commits{/sha}"
 ```
 
+Here is an example using the commits URL of one of the repos:
+
+```
+$ gh api "https://api.github.com/repos/ULL-ESIT-DMSI-1920/markdown-fuegonellaa/commits" | \
+      jq '.[].commit | (.author | .date, .name), .message'
+"2021-09-29T10:11:05Z"
+"Antonella García"
+"Practica 1"
+"2021-09-29T09:46:08Z"
+"github-classroom[bot]"
+"Add online IDE url"
+```
+
 Fortunately, `gh` has a `--jq` option that does the same that the former pipe example.
 
 But first, let avoid the `gh` default paginator:
