@@ -163,7 +163,8 @@ ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
 
 ### What happens if one of the repos already exists
 
-If the repo already exists the script attempts to pull the last version of the default branch
+If the repo already exists the script 
+attempts to pull the last version of the default branch
 
 ```
 ~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ ./gh clone-org -s markdown-fuegonellaa -y -p tmp/
